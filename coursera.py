@@ -79,13 +79,13 @@ def parse_and_validate_arguments():
 
     if not filepath:
         print('File for saving to xlsx not specified!')
-        exit()
+        return None, None
     try:
         check_file = open(filepath, 'w')
         check_file.close()
     except FileNotFoundError:
         print('Invalid file path!')
-        exit()
+        return None, None
 
     if not args.listsize:
         courses_list_size = 20
@@ -97,8 +97,8 @@ def parse_and_validate_arguments():
 
 if __name__ == '__main__':
     filepath, courses_list_size = parse_and_validate_arguments()
-
-    courses_url_list = get_courses_list(courses_list_size)
+    if filepath:
+        courses_url_list = get_courses_list(courses_list_size)
     if courses_url_list:
         courses_info = get_courses_info(courses_url_list)
         output_courses_info_to_xlsx(filepath, courses_info)
