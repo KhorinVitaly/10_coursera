@@ -68,23 +68,21 @@ def output_courses_info_to_xlsx(filepath, courses_info):
     workbook.save(filepath)
 
 
-def parse_arguments():
+def parse_and_validate_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--filepath", action="store",
                         help="file for saving to xlsx")
     parser.add_argument("-s", "--listsize", action="store",
                         help="list size for saving")
-    return parser.parse_args()
+    args = parser.parse_args()
+    filepath = args.filepath
 
-
-if __name__ == '__main__':
-    args = parse_arguments()
-
-    if not args.filepath:
+    if not filepath:
         print('File for saving to xlsx not specified!')
         exit()
     try:
-        with open(args.filepath, 'w') as check_filepath: pass
+        check_file = open(filepath, 'w')
+        check_file.close()
     except FileNotFoundError:
         print('Invalid file path!')
         exit()
@@ -94,8 +92,14 @@ if __name__ == '__main__':
     else:
         courses_list_size = int(args.listsize)
 
+    return filepath, courses_list_size
+
+
+if __name__ == '__main__':
+    filepath, courses_list_size = parse_and_validate_arguments()
+
     courses_url_list = get_courses_list(courses_list_size)
     if courses_url_list:
         courses_info = get_courses_info(courses_url_list)
-        output_courses_info_to_xlsx(args.filepath, courses_info)
-        print('Courses list wrote successfully into ' + args.filepath)
+        output_courses_info_to_xlsx(filepath, courses_info)
+        print('Courses list wrote successfully into ' + filepath)
