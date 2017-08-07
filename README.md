@@ -14,11 +14,12 @@ Remember, it is recommended to use [virtualenv/venv](https://devman.org/encyclop
 
 # Quickstart
 
-Launch script in terminal  
+Launch script in terminal, fill parameters -f = file path; -s = courses list size limit <optional, 
+default value 20>  
 
 ```bash
-python3 coursera.py 
-Courses list wrote successfully into *.xlsx
+python3 coursera.py [-f test.xlsx] <-s 15>
+Courses list wrote successfully into test.xlsx
 ```
 
 # Project Goals
